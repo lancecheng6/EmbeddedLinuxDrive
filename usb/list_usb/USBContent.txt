@@ -1,0 +1,10 @@
+USB Drive: /run/media/sda2
+========================================
+drwxrwx---   4 root root    16384 Jan 01 00:00 .
+drwxr-xr-x   6 root root      120 Dec 05 08:17 ..
+drwxrwx---   4 root root     2048 Nov 20 12:17 EFI
+-rwxrwx---   1 root root      177 Jan 29 12:06 README.txt
+drwxrwx---   2 root root     2048 Jun 04 23:42 .fseventsd
+
+Subdirectories: 4
+Files: 1
