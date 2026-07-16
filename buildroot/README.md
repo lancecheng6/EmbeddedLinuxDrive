@@ -33,14 +33,16 @@ Embedded Linux driver development notes on I.MX6ULL.
 EmbeddedLinuxDrive/
 └── buildroot/
     ├── configs/
-    │   └── imx6ull_defconfig       # Buildroot configuration
+    │   └── imx6ull_defconfig                             # Buildroot configuration
     ├── scripts/
-    │   └── build_kernel.sh         # Automated build script
+    │   └── build_kernel.sh                               # Automated build script
     ├── output/
-    │   ├── zImage                  # Compiled kernel image
-    │   ├── imx6ull-*.dtb           # Device tree blob
-    │   └── u-boot.bin              # Bootloader
-    └── README.md                   # This file
+    │   ├── zImage                                        # Compiled kernel image
+    │   ├── rootfs.ext4                                   # Root filesystem (Busybox, no desktop)
+    │   ├── rootfs.tar                                    # Root filesystem tarball
+    │   ├── imx6ull-14x14-emmc-7-1024x600-c.dtb           # Device tree blob
+    │   └── u-boot.bin                                    # Bootloader
+    └── README.md                                         # This file
 ```
 
 ## Build & Deploy
@@ -71,8 +73,10 @@ FORCE_UNSAFE_CONFIGURE=1 make -j4
 ### Deploy to board
 
 ```bash
+# Upload all images
 scp output/images/zImage root@<BOARD_IP>:/home/root/
-scp output/images/*.dtb root@<BOARD_IP>:/home/root/
+scp output/images/rootfs.ext4 root@<BOARD_IP>:/home/root/
+scp output/images/imx6ull-14x14-ddr3-arm2.dtb root@<BOARD_IP>:/home/root/
 scp output/images/u-boot.bin root@<BOARD_IP>:/home/root/
 
 # Flash U-Boot
@@ -84,8 +88,11 @@ cp /home/root/zImage /mnt/
 cp /home/root/*.dtb /mnt/
 umount /mnt
 
-# Reboot
+# Flash rootfs
+dd if=/home/root/rootfs.ext4 of=/dev/mmcblk1p2 bs=1M
 sync
+
+# Reboot
 reboot
 ```
 
